@@ -1,0 +1,10 @@
+{
+    "name": "Aura Chat - Premium AI Messenger",
+    "short_name": "Aura",
+    "description": "Next-generation AI-powered chat application for seamless communication.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#020617",
+    "theme_color": "#3b82f6",
+    "icons": []
+}

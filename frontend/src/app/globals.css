@@ -1,0 +1,908 @@
+@import "tailwindcss";
+
+:root {
+  --background: #020617;
+  --foreground: #f8fafc;
+
+  /* Premium Futuristic Palette */
+  --navy-deep: #020817;
+  --navy-light: #0f172a;
+  --blue-glow: #3b82f6;
+  --accent-cyan: #22d3ee;
+  --indigo-premium: #6366f1;
+  --violet-glow: #8b5cf6;
+
+  /* Refined Glassmorphism */
+  --glass-bg: rgba(15, 23, 42, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-accent: rgba(59, 130, 246, 0.12);
+  
+  /* Layered Shadow System */
+  --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  --glow-blue: 0 0 20px -5px rgba(59, 130, 246, 0.5);
+}
+
+.theme-light {
+  --background: #f8faff;
+  --foreground: #020617;
+  --navy-deep: #ffffff;
+  --navy-light: #f1f5f9;
+  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(99, 102, 241, 0.12);
+  --glass-accent: rgba(59, 130, 246, 0.08);
+  --shadow-premium: 0 20px 40px -12px rgba(99, 102, 241, 0.15);
+  --glow-blue: 0 0 25px -5px rgba(59, 130, 246, 0.25);
+  --accent-cyan: #0891b2;
+  --blue-glow: #2563eb;
+  --indigo-premium: #4f46e5;
+}
+
+.theme-dark {
+  --background: #020617;
+  --foreground: #f8fafc;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-navy-deep: var(--navy-deep);
+  --color-blue-glow: var(--blue-glow);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-indigo-premium: var(--indigo-premium);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  position: relative;
+}
+
+/* Noise Texture Overlay - Local Data URI for reliability */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================================
+   LIGHT MODE GLOBAL OVERRIDES
+   All rules use html.theme-light parent for specificity.
+   ============================================================ */
+
+/* Root and wrapper backgrounds */
+html.theme-light body,
+html.theme-light .bg-background {
+  background-color: #f0f4ff !important;
+  color: #0f172a !important;
+}
+
+/* Noise overlay lighter in light mode */
+html.theme-light body::before {
+  opacity: 0.015;
+}
+
+html.theme-light .animate-gradient-bg {
+  background: linear-gradient(-45deg, #e8f0fe, #f0f4ff, #dbeafe, #ede9fe) !important;
+  background-size: 400% 400% !important;
+  animation: gradientMoveLM 15s ease infinite !important;
+}
+
+@keyframes gradientMoveLM {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ---------- Hardcoded dark areas ---------- */
+/* Backgrounds */
+html.theme-light [class*="bg-[#020617]"],
+html.theme-light [class*="bg-[#030712]"],
+html.theme-light [class*="bg-[#020817]"],
+html.theme-light [class*="bg-[#0d0d14]"],
+html.theme-light [class*="bg-[#09090b]"] {
+  background-color: #f0f4ff !important;
+}
+
+html.theme-light [class*="bg-[#0d0d14]/90"],
+html.theme-light .bg-navy-deep\/95,
+html.theme-light .bg-navy-deep\/90 {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+}
+
+/* Sidebar & Cards (bg-white/[0.01-0.03]) */
+html.theme-light [class*="bg-white/[0.01]"],
+html.theme-light [class*="bg-white/[0.02]"],
+html.theme-light [class*="bg-white/[0.03]"],
+html.theme-light [class*="bg-white/5"] {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+}
+
+html.theme-light [class*="bg-white/[0.04]"],
+html.theme-light [class*="bg-white/[0.05]"],
+html.theme-light [class*="bg-white/[0.06]"] {
+  background-color: rgba(245, 248, 255, 0.92) !important;
+}
+
+html.theme-light [class*="bg-white/10"],
+html.theme-light [class*="bg-white/8"] {
+  background-color: rgba(99, 102, 241, 0.08) !important;
+}
+
+html.theme-light [class*="bg-zinc-800"],
+html.theme-light [class*="bg-zinc-900"] {
+  background-color: rgba(226, 232, 240, 0.85) !important;
+}
+
+/* Glass card utility */
+html.theme-light .glass-card {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ---------- Text & Icons ---------- */
+/* General text colors - Use rich navy and indigo for light mode */
+html.theme-light .text-white:not(button .text-white):not([class*="bg-gradient-to-"]):not([class*="bg-blue-600"]):not(.text-transparent),
+html.theme-light .text-slate-50,
+html.theme-light .text-slate-100 {
+  color: #0f172a !important;
+}
+
+html.theme-light .text-zinc-50 {
+  color: #0f172a !important;
+}
+
+html.theme-light .text-slate-200, html.theme-light .text-slate-300, html.theme-light .text-zinc-300 {
+  color: #1e293b !important; /* Deeper for better contrast */
+}
+
+html.theme-light .text-slate-400, html.theme-light .text-zinc-400 {
+  color: #334155 !important; /* Much darker for readability */
+}
+
+html.theme-light .text-slate-500, html.theme-light .text-zinc-500 {
+  color: #475569 !important; /* Dark slate instead of light gray */
+}
+
+html.theme-light .text-slate-600, html.theme-light .text-zinc-600 {
+  color: #64748b !important;
+}
+
+/* Secondary labels and status text */
+html.theme-light .text-\[11px\].font-semibold.uppercase {
+  color: #4f46e5 !important; /* Use indigo for status labels in light mode */
+  letter-spacing: 0.15em !important;
+}
+
+html.theme-light .text-\[10px\].font-white\/50,
+html.theme-light .text-slate-500\/60 {
+  color: #94a3b8 !important;
+}
+
+/* Ensure headings & titles remain black/deep navy */
+html.theme-light h1, html.theme-light h2, html.theme-light h3, html.theme-light h4 {
+  color: #020617 !important;
+  font-weight: 800 !important;
+}
+html.theme-light .text-lg.font-bold, html.theme-light .text-xl.font-black, html.theme-light .text-2xl.font-extrabold {
+  color: #020617 !important;
+}
+
+/* ---------- Borders ---------- */
+html.theme-light [class*="border-white/5"],
+html.theme-light [class*="border-white/8"],
+html.theme-light [class*="border-white/10"],
+html.theme-light .border-navy-deep {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ---------- Inputs, Selects, Buttons ---------- */
+html.theme-light input[type="text"],
+html.theme-light input[type="email"],
+html.theme-light input[type="password"],
+html.theme-light textarea,
+html.theme-light select {
+  background-color: rgba(241, 245, 255, 0.95) !important;
+  border-color: rgba(99, 102, 241, 0.2) !important;
+  color: #0f172a !important;
+}
+
+html.theme-light input::placeholder,
+html.theme-light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Primary buttons (blue/purple gradients) should maintain white text */
+html.theme-light .bg-gradient-to-r.from-indigo-600.to-purple-600.text-white,
+html.theme-light .bg-blue-600.text-white,
+html.theme-light .bg-gradient-to-br[class*="from-blue-500"] {
+  color: #ffffff !important;
+}
+
+/* Received bubble text and markdown elements */
+html.theme-light .rounded-tl-none.bg-white\/\[0\.04\] {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  color: #1e293b !important;
+  border-color: rgba(99, 102, 241, 0.15) !important;
+}
+html.theme-light .text-white\/95 { color: #020617 !important; }
+html.theme-light strong, html.theme-light b { color: #020617 !important; font-weight: 900 !important; }
+
+/* Message item unread pill stays rose */
+html.theme-light .bg-rose-600.text-white {
+  color: #ffffff !important;
+}
+
+/* Hover Actions Bar in Light Mode */
+html.theme-light .group .absolute.-top-10 {
+  background-color: #ffffff !important;
+  border-color: rgba(99, 102, 241, 0.25) !important;
+  box-shadow: 0 15px 40px -10px rgba(99, 102, 241, 0.3) !important;
+}
+
+html.theme-light .group .absolute.-top-10 button {
+  color: #334155 !important;
+}
+
+html.theme-light .group .absolute.-top-10 button:hover {
+  background-color: rgba(99, 102, 241, 0.15) !important;
+  color: #4f46e5 !important;
+}
+
+/* ---------- Global Theme Bridge (Massive Contrast Fix) ---------- */
+html.theme-light .text-white, 
+html.theme-light .text-white\/90,
+html.theme-light .text-white\/95 { color: #0f172a !important; }
+
+html.theme-light .text-slate-50 { color: #020617 !important; }
+html.theme-light .text-slate-100 { color: #0f172a !important; }
+html.theme-light .text-slate-200 { color: #1e293b !important; }
+html.theme-light .text-slate-300 { color: #334155 !important; }
+html.theme-light .text-slate-400 { color: #475569 !important; }
+html.theme-light .text-slate-500 { color: #64748b !important; }
+html.theme-light .text-zinc-50 { color: #0f172a !important; }
+html.theme-light .text-zinc-100 { color: #0f172a !important; }
+html.theme-light .text-zinc-400 { color: #4b5563 !important; }
+html.theme-light .text-zinc-500 { color: #6b7280 !important; }
+html.theme-light .text-zinc-600 { color: #94a3b8 !important; }
+
+/* Landing Page Heading Gradient */
+html.theme-light .text-zinc-100.block { color: #0f172a !important; }
+html.theme-light .from-white.to-zinc-400 {
+  --tw-gradient-from: #0f172a !important;
+  --tw-gradient-to: #334155 !important;
+}
+
+/* Interactive Blue/Indigo Elements in Light Mode */
+html.theme-light .text-blue-400 { color: #2563eb !important; }
+html.theme-light .text-indigo-400 { color: #4f46e5 !important; }
+html.theme-light .text-blue-300 { color: #1d4ed8 !important; }
+html.theme-light .text-blue-100\/60 { color: #475569 !important; }
+html.theme-light .text-blue-200\/60 { color: #1e3a8a !important; }
+html.theme-light .text-blue-100 { color: #1e3a8a !important; }
+
+/* Sub-labels & Statuses */
+html.theme-light .text-amber-300 { color: #92400e !important; }
+html.theme-light .text-emerald-300 { color: #065f46 !important; }
+html.theme-light .text-purple-300 { color: #6b21a8 !important; }
+html.theme-light .text-fuchsia-300 { color: #86198f !important; }
+html.theme-light .text-purple-400 { color: #7e22ce !important; }
+html.theme-light .text-purple-600 { color: #581c87 !important; }
+html.theme-light .text-rose-300 { color: #9f1239 !important; }
+html.theme-light .text-rose-400 { color: #be123c !important; }
+
+/* Selection fix */
+html.theme-light .selection\:bg-blue-500\/30 { background-color: rgba(59, 130, 246, 0.15) !important; }
+
+/* Invert Backgrounds */
+html.theme-light .bg-navy-deep,
+html.theme-light .bg-navy-deep\/95,
+html.theme-light .bg-navy-deep\/90,
+html.theme-light .bg-navy-deep\/60,
+html.theme-light .bg-\[\#030712\],
+html.theme-light .bg-\[\#030712\]\/50,
+html.theme-light .bg-\[\#0d0d14\]\/90,
+html.theme-light .bg-\[\#030712\]\/80 { 
+  background-color: #f8fafc !important; 
+}
+
+/* Semi-transparent Tints for Badges in Light Mode */
+html.theme-light .bg-white\/\[0\.02\],
+html.theme-light .bg-white\/\[0\.03\],
+html.theme-light .bg-white\/\[0\.04\],
+html.theme-light .bg-white\/\[0\.05\],
+html.theme-light .bg-white\/5,
+html.theme-light .bg-white\/8,
+html.theme-light .bg-white\/10 { 
+  background-color: rgba(99, 102, 241, 0.05) !important; 
+}
+
+/* Highlighted badges (Reactions, Active partner) */
+html.theme-light .bg-blue-500\/10,
+html.theme-light .bg-blue-600\/10,
+html.theme-light .bg-blue-500\/20 {
+  background-color: rgba(59, 130, 246, 0.12) !important;
+}
+
+/* Aura AI label background */
+html.theme-light .text-purple-600,
+html.theme-light .text-purple-700 {
+  background-color: rgba(147, 51, 234, 0.05) !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+}
+
+/* Busy indicator background */
+html.theme-light .text-amber-300 {
+  background-color: rgba(245, 158, 11, 0.08) !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+}
+
+html.theme-light .border-white\/5,
+html.theme-light .border-white\/8,
+html.theme-light .border-white\/10,
+html.theme-light .border-white\/20 { 
+  border-color: rgba(99, 102, 241, 0.15) !important; 
+}
+
+/* Modals & Popovers */
+html.theme-light .backdrop-blur-\[10px\],
+html.theme-light .backdrop-blur-\[20px\],
+html.theme-light .backdrop-blur-\[30px\],
+html.theme-light .backdrop-blur-\[40px\],
+html.theme-light .backdrop-blur-xl,
+html.theme-light .backdrop-blur-3xl {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(40px) saturate(180%) !important;
+}
+
+/* AI Assistant Button stays vibrant */
+html.theme-light .bg-blue-600 .text-white,
+html.theme-light .bg-indigo-600 .text-white,
+html.theme-light .bg-gradient-to-r .text-white,
+html.theme-light .bg-gradient-to-br .text-white {
+  color: #ffffff !important;
+}
+
+/* Settings Modal Shadow */
+html.theme-light .shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Scroll Bottom Button Fix */
+html.theme-light .bg-white\/10.text-white {
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+html.theme-light .bg-white\/\[0\.15\] {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Status dots */
+html.theme-light .bg-emerald-500 {
+  background-color: #10b981 !important;
+}
+
+/* Form inputs border */
+html.theme-light input, 
+html.theme-light textarea,
+html.theme-light select {
+  color: #0f172a !important;
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(99, 102, 241, 0.4) !important;
+  box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.1) !important;
+}
+
+html.theme-light input::placeholder,
+html.theme-light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Specific Chat Header Fix */
+html.theme-light .flex-none.h-\[72px\] {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Date divider glow */
+html.theme-light .via-white\/10 { --tw-gradient-via: rgba(0,0,0,0.10) !important; }
+
+/* ---------- Landing page rich aesthetics ---------- */
+html.theme-light footer {
+  background-color: #e8f0fe !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+html.theme-light .bg-\[\#09090b\] {
+  background-color: #f0f4ff !important;
+}
+
+/* ---------- Scrollbars ---------- */
+html.theme-light .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15) !important;
+}
+html.theme-light .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25) !important;
+}
+
+/* ---------- Auth pages (signin / signup) ---------- */
+html.theme-light .bg-\[\#030712\],
+html.theme-light .bg-\[\#030712\]\/50,
+html.theme-light .bg-\[\#030712\]\/60,
+html.theme-light .bg-\[\#030712\]\/80 {
+  background-color: #f0f4ff !important;
+}
+
+html.theme-light .bg-\[\#0d0d14\]\/90,
+html.theme-light .bg-\[\#0d0d14\] {
+  background-color: rgba(255, 255, 255, 0.97) !important;
+}
+
+html.theme-light .bg-\[\#09090b\],
+html.theme-light .bg-\[\#050505\]\/80 {
+  background-color: #f8fafc !important;
+}
+
+html.theme-light .bg-\[\#0f172a\] {
+  background-color: #ffffff !important;
+}
+
+/* Auth card border glow */
+html.theme-light .bg-gradient-to-b.from-white\/10 {
+  background: linear-gradient(to bottom, rgba(99,102,241,0.15), rgba(99,102,241,0.05), transparent) !important;
+}
+
+/* Auth card shadow */
+html.theme-light .shadow-\[0_40px_80px_rgba\(0\,0\,0\,0\.7\)\] {
+  box-shadow: 0 40px 80px rgba(99, 102, 241, 0.12) !important;
+}
+
+/* Divider lines in auth forms */
+html.theme-light .bg-white\/8 {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* "or" divider text */
+html.theme-light .text-zinc-600 {
+  color: #64748b !important;
+}
+
+/* Google button in light mode */
+html.theme-light .border-white\/10.bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Password strength bar empty segments */
+html.theme-light .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ---------- Admin page ---------- */
+html.theme-light .bg-\[\#020617\] {
+  background-color: #f0f4ff !important;
+}
+
+html.theme-light .bg-\[\#030712\]\/60 {
+  background-color: rgba(248, 250, 255, 0.92) !important;
+}
+
+/* Admin nav */
+html.theme-light nav.sticky.bg-\[\#030712\]\/60 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Admin metric cards */
+html.theme-light .bg-\[\#030712\].border.border-white\/5 {
+  background-color: #ffffff !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
+  box-shadow: 0 4px 24px -4px rgba(99, 102, 241, 0.1) !important;
+}
+
+/* Admin chart containers */
+html.theme-light .bg-\[\#030712\].border.border-white\/5.rounded-\[2rem\],
+html.theme-light .bg-\[\#030712\].border.border-white\/5.rounded-\[2\.5rem\] {
+  background-color: #ffffff !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
+}
+
+/* Admin activity feed */
+html.theme-light .bg-white\/\[0\.01\] {
+  background-color: rgba(99, 102, 241, 0.03) !important;
+}
+
+/* Admin range buttons */
+html.theme-light .bg-white\/5.border.border-white\/5.p-1.rounded-2xl {
+  background-color: rgba(99, 102, 241, 0.06) !important;
+  border-color: rgba(99, 102, 241, 0.15) !important;
+}
+
+/* Admin tooltip */
+html.theme-light .bg-\[\#0f172a\].border.border-white\/10 {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ---------- Profile page ---------- */
+html.theme-light .bg-\[\#020617\].text-slate-200,
+html.theme-light .bg-\[\#020617\].text-slate-50 {
+  background-color: #f0f4ff !important;
+}
+
+html.theme-light .bg-slate-950\/50 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+html.theme-light .ring-\[4px\].ring-\[\#020617\] {
+  --tw-ring-color: #f0f4ff !important;
+}
+
+html.theme-light .bg-black\/20 {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+/* ---------- Landing page ---------- */
+html.theme-light .bg-\[\#030712\].text-zinc-50 {
+  background-color: #f0f4ff !important;
+  color: #0f172a !important;
+}
+
+/* Landing nav */
+html.theme-light nav.fixed.bg-\[\#030712\]\/50 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Landing hero text */
+html.theme-light .text-zinc-50 { color: #0f172a !important; }
+html.theme-light .text-zinc-300 { color: #1e293b !important; }
+html.theme-light .text-zinc-400 { color: #475569 !important; }
+html.theme-light .text-zinc-500 { color: #64748b !important; }
+
+/* Landing "Get Started" white button stays white with dark text */
+html.theme-light .bg-white.text-zinc-900 {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+
+/* Landing bento cards */
+html.theme-light .bg-white\/\[0\.02\] {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
+}
+
+/* Landing tech stack cards */
+html.theme-light .bg-\[\#030712\].hover\:bg-white\/\[0\.02\] {
+  background-color: #ffffff !important;
+}
+
+/* Landing about section */
+html.theme-light .bg-white\/\[0\.01\].border-y.border-white\/5 {
+  background-color: rgba(99, 102, 241, 0.03) !important;
+  border-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+/* Landing about stats card */
+html.theme-light .bg-\[\#050505\]\/80 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Landing CTA section */
+html.theme-light .bg-\[\#09090b\].px-6.py-24 {
+  background-color: #f8fafc !important;
+}
+
+/* Landing testimonials section */
+html.theme-light .bg-\[\#030712\].border-t.border-white\/5 {
+  background-color: #f0f4ff !important;
+}
+
+/* Testimonial cards */
+html.theme-light .w-\[450px\].shrink-0.rounded-3xl {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
+}
+
+/* Landing floating hero elements */
+html.theme-light .bg-zinc-900 {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.theme-light .bg-zinc-800,
+html.theme-light .bg-zinc-800\/80 {
+  background-color: rgba(241, 245, 249, 0.9) !important;
+}
+
+html.theme-light .bg-zinc-900.border.border-white\/5 {
+  background-color: rgba(241, 245, 249, 0.95) !important;
+}
+
+/* Hero mockup */
+html.theme-light .bg-\[\#09090b\].p-6 {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ---------- MessageBubble hover bar ---------- */
+html.theme-light .bg-navy-deep\/95 {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+}
+
+/* ---------- NotificationToast ---------- */
+html.theme-light .bg-navy-deep\/90 {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+}
+
+/* ---------- Chat page sidebar & header ---------- */
+html.theme-light .bg-\[\#020617\].flex.min-h-screen,
+html.theme-light .bg-\[\#020617\].h-screen {
+  background-color: #f0f4ff !important;
+}
+
+/* Sidebar background */
+html.theme-light .border-r.border-white\/5 {
+  border-color: rgba(99, 102, 241, 0.1) !important;
+  background-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Chat area background */
+html.theme-light .flex-1.flex.flex-col.relative {
+  background-color: #f5f7ff !important;
+}
+
+/* ---------- Aura logo text gradient on auth pages ---------- */
+html.theme-light .from-white.to-zinc-400.bg-clip-text {
+  --tw-gradient-from: #1e293b !important;
+  --tw-gradient-to: #475569 !important;
+}
+
+/* ---------- Focus ring offset for auth buttons ---------- */
+html.theme-light .focus-visible\:ring-offset-\[\#0d0d14\] {
+  --tw-ring-offset-color: #ffffff !important;
+}
+
+/* ---------- Misc fixes ---------- */
+/* Backdrop blur panels */
+html.theme-light .bg-\[\#030712\]\/50.backdrop-blur-2xl {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+}
+
+/* Active chat item highlight */
+html.theme-light .shadow-\[inset_0_0_20px_rgba\(59\,130\,246\,0\.1\)\] {
+  box-shadow: inset 0 0 20px rgba(99, 102, 241, 0.08) !important;
+  background-color: rgba(99, 102, 241, 0.06) !important;
+}
+
+/* Hover actions bar emoji buttons */
+html.theme-light .hover\:bg-white\/10:hover {
+  background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+/* Message input area */
+html.theme-light .bg-white\/\[0\.03\].backdrop-blur-\[40px\] {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(99, 102, 241, 0.15) !important;
+}
+
+/* Textarea placeholder */
+html.theme-light textarea.placeholder\:text-slate-600::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Message textarea text */
+html.theme-light textarea.text-white {
+  color: #0f172a !important;
+}
+
+/* Sent message bubble */
+html.theme-light .rounded-tr-none {
+  box-shadow: 0 4px 16px -4px rgba(99, 102, 241, 0.3) !important;
+}
+
+/* Received message bubble */
+html.theme-light .rounded-tl-none {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
+  color: #1e293b !important;
+}
+
+/* Date divider */
+html.theme-light .via-white\/10 { --tw-gradient-via: rgba(0,0,0,0.08) !important; }
+
+/* Typing indicator */
+html.theme-light .text-blue-300 { color: #2563eb !important; }
+
+/* Online status dot border */
+html.theme-light .border-navy-deep {
+  border-color: #ffffff !important;
+}
+
+/* Group badge border */
+html.theme-light .border-2.border-navy-deep {
+  border-color: #f0f4ff !important;
+}
+
+/* Settings panel */
+html.theme-light .bg-navy-deep\/60 {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Unread badge */
+html.theme-light .bg-rose-600 {
+  background-color: #e11d48 !important;
+}
+
+/* Active left indicator bar */
+html.theme-light .bg-gradient-to-b.from-blue-400.to-indigo-600 {
+  background: linear-gradient(to bottom, #3b82f6, #4f46e5) !important;
+}
+
+/* Scroll to bottom button */
+html.theme-light .bg-white\/10.backdrop-blur-xl {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #1e293b !important;
+}
+
+/* AI reply label */
+html.theme-light .text-purple-400 { color: #7c3aed !important; }
+html.theme-light .bg-purple-500\/10 { background-color: rgba(124, 58, 237, 0.08) !important; }
+
+/* Busy mode badge */
+html.theme-light .bg-amber-500\/10 { background-color: rgba(245, 158, 11, 0.08) !important; }
+html.theme-light .text-amber-400 { color: #b45309 !important; }
+
+/* Emerald status */
+html.theme-light .text-emerald-400 { color: #059669 !important; }
+html.theme-light .bg-emerald-500\/10 { background-color: rgba(5, 150, 105, 0.08) !important; }
+
+/* Rose/error */
+html.theme-light .text-rose-400 { color: #be123c !important; }
+html.theme-light .bg-rose-500\/10 { background-color: rgba(190, 18, 60, 0.08) !important; }
+
+/* Indigo accents */
+html.theme-light .text-indigo-400 { color: #4f46e5 !important; }
+html.theme-light .bg-indigo-500\/10 { background-color: rgba(79, 70, 229, 0.08) !important; }
+html.theme-light .bg-indigo-600 { background-color: #4f46e5 !important; }
+html.theme-light .hover\:bg-indigo-500:hover { background-color: #6366f1 !important; }
+
+/* Blue accents */
+html.theme-light .text-blue-400 { color: #2563eb !important; }
+html.theme-light .bg-blue-500\/10 { background-color: rgba(37, 99, 235, 0.08) !important; }
+html.theme-light .bg-blue-600 { background-color: #2563eb !important; }
+html.theme-light .hover\:bg-blue-500:hover { background-color: #3b82f6 !important; }
+
+/* Gradient buttons keep white text */
+html.theme-light .bg-gradient-to-r.from-indigo-600.to-purple-600,
+html.theme-light .bg-gradient-to-br.from-blue-500.to-indigo-600 {
+  color: #ffffff !important;
+}
+
+/* Profile page avatar ring */
+html.theme-light .ring-4 {
+  --tw-ring-color: #f0f4ff !important;
+}
+
+/* Profile page header */
+html.theme-light header.sticky.bg-slate-950\/50 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Profile glass-card inputs */
+html.theme-light .glass-card {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(99, 102, 241, 0.15) !important;
+}
+
+/* Profile user ID code block */
+html.theme-light code.text-slate-400 {
+  color: #475569 !important;
+  background-color: rgba(99, 102, 241, 0.05) !important;
+}
+
+/* Admin loading spinner page */
+html.theme-light .min-h-screen.bg-\[\#020617\].flex.items-center {
+  background-color: #f0f4ff !important;
+}
+
+/* Admin activity empty state */
+html.theme-light .text-zinc-800 { color: #cbd5e1 !important; }
+
+/* Admin top rooms progress bar track */
+html.theme-light .bg-white\/5.rounded-full {
+  background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+/* Recharts axis text */
+html.theme-light .recharts-cartesian-axis-tick text {
+  fill: #64748b !important;
+}
+
+/* Recharts grid lines */
+html.theme-light .recharts-cartesian-grid-horizontal line,
+html.theme-light .recharts-cartesian-grid-vertical line {
+  stroke: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Diagnostics page */
+html.theme-light .bg-\[\#020617\].min-h-screen {
+  background-color: #f0f4ff !important;
+}
+
+/* AI page */
+html.theme-light .bg-\[\#020617\].flex.flex-col {
+  background-color: #f0f4ff !important;
+}
+
+@layer utilities {
+  .glass-morphism {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-premium);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ... rest of utilities remain same ... */
+  .glow-border { position: relative; }
+  .glow-border::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .glow-border:hover::after, .glow-border:focus::after { opacity: 1; }
+  .inner-glow-blue { box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.1); }
+  
+  .animate-gradient-bg {
+    background: linear-gradient(-45deg, var(--background), #0f172a, #1e3a8a, var(--background));
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+  }
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .animate-slide-up { animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  .animate-pulse-green { animation: pulseGreen 2s infinite; }
+  @keyframes pulseGreen { 0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); } }
+  .animate-slide-left { animation: slideLeft 0.5s cubic-bezier(0.2, 1, 0.2, 1) forwards; }
+  @keyframes slideLeft { from { opacity: 0; transform: translateX(40px) scale(0.95); } to { opacity: 1; transform: translateX(0) scale(1); } }
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 20px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .animate-shrink-x { animation: shrinkX 3s linear forwards; }
+  @keyframes shrinkX { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+  .animate-strength-fill { transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+}
